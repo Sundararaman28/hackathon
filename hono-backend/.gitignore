@@ -31,3 +31,16 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+
+# additional backend specific
+coverage/
+.nyc_output/
+*.pem
+*.cert
+*.key
+.env.*
+!.env.example
+
+# temp files
+tmp/
+temp/
