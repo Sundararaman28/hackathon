@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { RegisterTeamRequest, TeamExcelData } from './types'
 import ExcelJS from 'exceljs';
 import { sendWhatsAppMessage } from '../utils/twilio';
+import { sendRegistrationEmail } from '../utils/email';
 
 export const registerTeam = async (c: Context): Promise<Response> => {
     const data = await c.req.json<RegisterTeamRequest>()
@@ -61,6 +62,30 @@ export const registerTeam = async (c: Context): Promise<Response> => {
                 }
             );
         }
+
+        // Send confirmation email
+        const emailConfig = {
+            username: c.env.SMTP_USERNAME,
+            password: c.env.SMTP_PASSWORD,
+            host: c.env.SMTP_HOST,
+            port: parseInt(c.env.SMTP_PORT),
+        };
+
+        await sendRegistrationEmail(
+            emailConfig,
+            {
+                teamId,
+                teamName: data.teamName,
+                leaderName: data.name,
+                leaderEmail: data.email,
+                githubRepo: `https://github.com/${data.githubProfile}/${data.repoName}`,
+                members: [
+                    { name: data.teammate1 || '', github: data.teammate1Github || '' },
+                    { name: data.teammate2 || '', github: data.teammate2Github || '' },
+                    { name: data.teammate3 || '', github: data.teammate3Github || '' }
+                ]
+            }
+        );
 
         return c.json({ message: 'Team registered successfully', teamId })
     } catch (error) {

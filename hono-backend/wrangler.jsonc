@@ -3,13 +3,17 @@
   "name": "hono-backend",
   "main": "src/index.ts",
   "compatibility_date": "2025-03-14"
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
-  ,"vars": {
+  ,"compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "vars": {
     "TWILIO_ACCOUNT_SID": "AC365dfcd9f4e3f09c75dd1fb21594c928",
     "TWILIO_AUTH_TOKEN" : "7d5c2a809bf3bbfd65f949c1cc32aa11",
-    "TWILIO_WHATSAPP_NUMBER" : "+14155238886"
+    "TWILIO_WHATSAPP_NUMBER" : "+14155238886",
+    "SMTP_USERNAME" : "sundarramann28@gmail.com",
+    "SMTP_PASSWORD" : "skvxclrgykxgtnum",
+    "SMTP_HOST" : "smtp.gmail.com",
+    "SMTP_PORT" : "465"
 
   },
   // "kv_namespaces": [
