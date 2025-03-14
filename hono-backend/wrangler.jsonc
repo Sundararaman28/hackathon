@@ -6,9 +6,12 @@
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
+  ,"vars": {
+    "TWILIO_ACCOUNT_SID": "AC365dfcd9f4e3f09c75dd1fb21594c928",
+    "TWILIO_AUTH_TOKEN" : "7d5c2a809bf3bbfd65f949c1cc32aa11",
+    "TWILIO_WHATSAPP_NUMBER" : "+14155238886"
+
+  },
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",
@@ -21,7 +24,7 @@
   //     "bucket_name": "my-bucket"
   //   }
   // ],
-  ,"d1_databases": [
+  "d1_databases": [
     {
       "binding": "DB",
       "database_name": "hackathon25",

@@ -1,5 +1,5 @@
--- drop table if exists teams;
--- drop table if exists members;
+drop table if exists teams;
+drop table if exists members;
 
 CREATE TABLE teams (
     team_id TEXT PRIMARY KEY, -- UUID or unique identifier

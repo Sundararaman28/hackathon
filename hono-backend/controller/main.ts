@@ -2,6 +2,7 @@ import { Context } from 'hono'
 import { v4 as uuidv4 } from 'uuid'
 import { RegisterTeamRequest, TeamExcelData } from './types'
 import ExcelJS from 'exceljs';
+import { sendWhatsAppMessage } from '../utils/twilio';
 
 export const registerTeam = async (c: Context): Promise<Response> => {
     const data = await c.req.json<RegisterTeamRequest>()
@@ -31,6 +32,34 @@ export const registerTeam = async (c: Context): Promise<Response> => {
                     'INSERT INTO members (team_id, name, github) VALUES (?, ?, ?)'
                 ).bind(teamId, teammate.name, teammate.github).run()
             }
+        }
+
+        // Send WhatsApp confirmation
+        if (data.whatsapp) {
+            const twilioConfig = {
+                accountSid: c.env.TWILIO_ACCOUNT_SID,
+                authToken: c.env.TWILIO_AUTH_TOKEN,
+                fromNumber: c.env.TWILIO_WHATSAPP_NUMBER
+            };
+
+            await sendWhatsAppMessage(
+                twilioConfig,
+                data.whatsapp,
+                {
+                    teamId,
+                    teamName: data.teamName,
+                    githubRepo: `https://github.com/${data.githubProfile}/${data.repoName}`,
+                    leader: {
+                        name: data.name,
+                        github: data.githubProfile
+                    },
+                    members: [
+                        { name: data.teammate1 || '', github: data.teammate1Github || '' },
+                        { name: data.teammate2 || '', github: data.teammate2Github || '' },
+                        { name: data.teammate3 || '', github: data.teammate3Github || '' }
+                    ]
+                }
+            );
         }
 
         return c.json({ message: 'Team registered successfully', teamId })
